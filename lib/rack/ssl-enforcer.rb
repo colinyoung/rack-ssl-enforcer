@@ -71,7 +71,7 @@ module Rack
       end
     end
 
-    def excluded?
+    def excluded? env
       if @options[:exclude]
         @options[:exclude].call(env)
       end
