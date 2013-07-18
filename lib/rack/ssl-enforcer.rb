@@ -34,7 +34,7 @@ module Rack
     def call(env)
       @request = Rack::Request.new(env)
 
-      return @app.call(env) if ignore?
+      return @app.call(env) if ignore? or excluded?(env)
 
       @scheme = if enforce_ssl?
         'https'
@@ -68,6 +68,12 @@ module Rack
         end
       else
         false
+      end
+    end
+
+    def excluded?
+      if @options[:exclude]
+        @options[:exclude].call(env)
       end
     end
 
